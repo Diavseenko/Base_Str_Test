@@ -8,7 +8,6 @@ class ProductPage(BasePage):
         self.add_product_to_cart()
         self.is_mess_add_to_cart_present()
 
-
     def add_product_to_cart(self):
         cart_btn = self.browser.find_element(*ProductPageLocators.CART_BTN)
         cart_btn.click()
@@ -22,14 +21,22 @@ class ProductPage(BasePage):
         message = self.browser.find_element(*ProductPageLocators.SUCCESS_MESSAGE_CART_NAME)
         assert product.text == message.text, "check your product that you added in cart"
 
-
     def comparing_price_item_and_cart(self):
         product_price = self.browser.find_element(*ProductPageLocators.PRODUCT_PRICE)
         cart_sum = self.browser.find_element(*ProductPageLocators.CART_SUM)
         assert product_price.text in cart_sum.text, "check the price in cart, may be you had wrong"
 
     def guest_cant_see_success_message_after_adding_product_to_basket(self):
-        assert self.is_not_element_present(*ProductPageLocators.SUCCESS_MESSAGE_CART), "The saccsesful message " \
-                                                                                           "did not apeare after " \
+        assert self.is_not_element_present(*ProductPageLocators.SUCCESS_MESSAGE_CART), "The successful message " \
+                                                                                           "did not appear after " \
                                                                                            "click on add to cart " \
                                                                                            "button "
+
+    def guest_cant_see_success_message(self):
+        assert self.is_not_element_present(*ProductPageLocators.SUCCESS_MESSAGE_CART), "The successful message " \
+                                                                                       "apeared, but button 'add to " \
+                                                                                       "cart' wasnt press "
+
+    def message_disappeared_after_adding_product_to_basket(self):
+        assert self.is_disappeared(*ProductPageLocators.SUCCESS_MESSAGE_CART), "The message didnt disapeared after " \
+                                                                               "added product in cart "
